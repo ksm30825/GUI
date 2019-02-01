@@ -1,0 +1,89 @@
+package com.kh.gui.part02_layout.view;
+
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class D_CardLayout extends JFrame{
+	public D_CardLayout(){
+		super("CardLayout");
+		
+		this.setBounds(300,200,800,500);
+		
+		//CardLayout
+		//panel을 이용해서 카드판을 만들어 겹쳐 놓음
+		//이벤트를 이용해서 다른 판이 보이게 설정해야 함
+		
+		CardLayout card = new CardLayout();
+		this.setLayout(card);
+		
+		//card를 사용한 패널 만들기
+		//패널은 컴포넌트이지만 다른 컴포넌트를 포함할 수 있는 컨테이너의 성격을 가진다.
+		JPanel card1 = new JPanel();
+		JPanel card2 = new JPanel();
+		JPanel card3 = new JPanel();
+		
+		//패널에 배경색 지정
+		card1.setBackground(Color.GRAY);
+		//Color라는 클래스가 가진 색을 지정
+		card2.setBackground(Color.yellow);
+		card3.setBackground(new Color(50,100,50));
+		//red : 50 ,green : 100 ,blue : 50
+		
+		card1.add(new JLabel("CARD1"),"1");
+		//CARD1이라는 글자를 넣어서 글자를 컴포넌트 취급
+		card2.add(new JLabel("CARD2"),"2");
+		card3.add(new JLabel("CARD3"),"3");
+		
+		//카드세장이 겹쳐져서 올라가 있는 상태
+		this.add(card1);
+		this.add(card2);
+		this.add(card3);
+		
+		//이벤트 추가
+		card1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				/*System.out.println("test");*/
+				//클릭할 때마다 test글자가 콘솔에 출력됨
+				if(e.getButton()==1) {
+					//1 : 마우스 좌클릭
+					card.next(card1.getParent());
+				}if(e.getButton()==3) {
+					//2 : 마우스 우클릭
+					card.next(card1.getParent());
+				}
+			}
+		});
+		//MouseAdapter() : 객체
+		//MouseAdapter() {}  : 익명 클래스
+		//MouseEvent e) {System.out.println("test");} //이벤트 발생
+		//클릭할 때마다 test글자가 콘솔에 출력됨
+		card2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getButton()==1) {
+					card.next(card2.getParent());
+				}if(e.getButton()==3) {
+					card.next(card2.getParent());
+				}
+			}
+		});
+		card3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getButton()==1) {
+					card.next(card3.getParent());
+				}if(e.getButton()==3) {
+					card.next(card3.getParent());
+				}
+			}
+		});
+		this.setVisible(true);this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+}
